@@ -59,27 +59,40 @@ public class HeapSort {
     int downHeap(int A[], int i){
         int j = i;
         int c = 0;
-        int k = maxChildIndex(A,j);
+        int k = maxChildIndex(A,j,A.length);
         c++;
         System.out.println("Insert: " + A[i]);
         while(k!=0) {
             swap(A,j,k);
             j = k;
-            if(k*2 -1 > A.length) break;
-            k = maxChildIndex(A,j);
+            k = maxChildIndex(A,j, A.length);
             c++;
         }
         return c;
     }
 
-    int maxChildIndex(int A[], int j) {
+    int heapify(int A[], int i, int n){
+        int j = i;
+        int c = 0;
+        int k = maxChildIndex(A,j,n);
+        c++;
+        while(k!=0) {
+            swap(A,j,k);
+            j = k;
+            k = maxChildIndex(A,j,n);
+            c++;
+        }
+        return c;
+    }
+
+    int maxChildIndex(int A[], int j, int n) {
         int maxIdx = 0;
         int max = A[j];
-        if(2*j < A.length && A[2*j] > max){
+        if(2*j < n && A[2*j] > max){
             maxIdx = 2*j;
             max = A[2*j];
         }
-        if(2*j+1 < A.length && A[2*j+1] > max){
+        if(2*j+1 < n && A[2*j+1] > max){
             maxIdx = 2*j+1;
         }
         return maxIdx;
@@ -96,13 +109,6 @@ public class HeapSort {
         return c;
     }
 
-//    heapsort_BottomUp(A, n)
-//    c <- 0
-//            for(i <- n to 1)
-//    swap(A[i],A[0])
-//    c <- = c + build_MaxHeap_BottomUp(A,i)
-//    return c
-
     int heapSortBottomUp(int A[],int n){
         int c = 0;
         for(int i=n-1;i>0;i--){
@@ -110,7 +116,7 @@ public class HeapSort {
             System.out.println("=====================");
             print(A);
             System.out.println("=====================");
-            c += downHeap(A,i-1);
+            c += heapify(A,1,i);
         }
         return c;
     }
@@ -121,7 +127,8 @@ public class HeapSort {
 
         int a2[] = {0, 2, 1, 4, 3, 6, 5, 8, 7, 10, 9, 12, 11, 14, 13, 16, 15};
         int a3[] = {0, 4, 2, 3, 1, 5, 8, 7, 6, 11, 10, 12, 9, 13, 14, 16, 15};
-        int a4[] = {0,5, 6, 7, 4, 2, 3, 1, 8, 11, 13, 14, 16, 10, 12, 11, 9};
+        int a4[] = {0, 5, 6, 7, 4, 2, 3, 1, 8, 11, 13, 14, 16, 10, 12, 11, 9};
+        int a5[] = {0, 5, 6, 7, 4};
         //hs.buidMaxHeapTopDown(a4,17);
         hs.buildMaxHeapBottomUp(a4,17);
         System.out.println("===== HEAP SORT =====");
